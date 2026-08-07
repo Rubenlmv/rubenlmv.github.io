@@ -1,57 +1,161 @@
-/* Toledo edition: a personal alumni theme inspired by UToledo's public brand. */
+/* ============================================================
+   Algebra / Representation Theory Theme — "Warm Terracotta & Lattice"
+   Complete rewrite – no scattered additions.
+   ============================================================ */
 
+/* ---------- HEADER (dark slate, no blue, no yellow) ---------- */
 .site-header {
-  background: rgba(7, 27, 53, .92);
-  border-bottom-color: rgba(255, 218, 0, .36);
+  background: rgba(10, 14, 20, 0.96) !important;
+  backdrop-filter: none !important;
+  border-bottom: 1px solid rgba(200, 210, 230, 0.12) !important;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Remove the glowing yellow/gold line at the top of the header */
+.site-header::before {
+  display: none !important;
 }
 
 .brand-logo {
   height: 40px;
-  filter: none;
+  filter: grayscale(0.3) brightness(1.2) contrast(1.1);
 }
 
+.brand-text {
+  color: #f0f4f8 !important;
+}
+
+.primary-nav a {
+  color: #a0aec0 !important;
+  font-weight: 500;
+}
+
+.primary-nav a:hover {
+  color: #ffffff !important;
+}
+
+.primary-nav a[aria-current="page"] {
+  color: #ffffff !important;
+}
+
+/* Remove gold underline – use platinum/white instead */
+.primary-nav a:not(.nav-cv)::after {
+  background: #a0aec0 !important;
+}
+
+.primary-nav a:not(.nav-cv):hover::after,
+.primary-nav a[aria-current="page"]:not(.nav-cv)::after {
+  background: #ffffff !important;
+}
+
+/* Mobile menu button (hamburger) – platinum, not gold */
+.menu-button span:not(.sr-only) {
+  background: #a0aec0 !important;
+}
+
+.menu-button[aria-expanded="true"] span:not(.sr-only) {
+  background: #ffffff !important;
+}
+
+/* ---------- REMOVE the big curve ---------- */
 .home-page .hero::after,
 .page-banner::after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  width: 58vw;
-  height: 58vw;
-  right: -34vw;
-  bottom: -45vw;
-  border: clamp(26px, 5vw, 74px) solid rgba(255, 255, 255, .08);
-  border-radius: 50%;
-  pointer-events: none;
+  display: none !important;
+  content: none !important;
 }
 
+/* ---------- REPLACE with a static, clear LATTICE ---------- */
+.home-page .hero::before,
+.page-banner::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+
+  /* Triangular / Hexagonal lattice – like a root system (A₂) or Weyl chamber walls */
+  background-image:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px) !important;
+
+  background-size:
+    80px 80px,
+    80px 80px,
+    40px 40px,
+    40px 40px !important;
+
+  background-position:
+    0 0, 0 0, 0 0, 0 0 !important;
+
+  opacity: 1 !important;
+  mask-image: none !important;
+  animation: none !important;
+}
+
+/* Ensure content sits above the lattice */
 .home-page .hero-grid,
 .page-banner .shell {
+  position: relative;
   z-index: 3;
 }
 
-.gold-text {
-  background-image: linear-gradient(100deg, #ffda00 0%, #fff2a3 48%, #ffda00 100%);
+/* ---------- HERO HEIGHT (fine-tuned) ---------- */
+.home-page .hero {
+  min-height: 520px !important;
+  padding: 72px 0 56px !important;
 }
 
+/* ---------- REMOVE the floating yellow sunbursts ---------- */
+.hero-orbs {
+  display: none !important;
+}
+
+/* ---------- MATCH PAGE BANNERS (dark brown at top for readability) ---------- */
+.page-banner {
+  background: linear-gradient(160deg, #2c1a12 0%, #5a3d30 45%, #8a705a 75%, #c2b2a0 100%) !important;
+}
+
+/* ---------- ACCENT TEXT (Platinum/Silver shimmer, not gold) ---------- */
+.gold-text {
+  background: linear-gradient(135deg, #9a7a64 0%, #7a5a44 40%, #4a3228 70%, #2c1a12 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  background-size: 200% 200%;
+  animation: silverShimmer 9s ease-in-out infinite;
+}
+
+@keyframes silverShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ---------- AFFILIATIONS ---------- */
 .affiliation-grid {
   grid-template-columns: repeat(3, 1fr);
 }
 
 .affiliation-card:first-child {
-  background: linear-gradient(160deg, #fffef5 0%, #f7f9fc 68%);
+  background: linear-gradient(160deg, #f8fafc 0%, #edf2f7 68%);
+  border-left: 3px solid #718096;
 }
 
+/* ★★★ UPDATED BADGE – now says "NONCOMMUTATIVE ALGEBRA" ★★★ */
 .affiliation-card:first-child::before {
-  content: 'ROCKET ALUMNUS';
+  content: 'NONCOMMUTATIVE ALGEBRA';
   position: absolute;
   top: 16px;
   right: 16px;
-  color: #15397f;
+  color: #1a202c;
   font: 700 .55rem var(--mono);
   letter-spacing: .08em;
-  background: #ffda00;
-  padding: 4px 7px;
-  border-radius: 4px;
+  background: #e2e8f0;
+  padding: 4px 9px;
+  border-radius: 3px;
 }
 
 .affiliation-logo-box.utoledo img {
@@ -59,6 +163,7 @@
   max-height: 96px;
 }
 
+/* ---------- CONTACT PATHS ---------- */
 .contact-paths {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -71,16 +176,17 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 28px;
-  border: 1px solid rgba(255, 218, 0, .34);
-  border-radius: 14px;
-  color: #fff;
+  border: 1px solid rgba(160, 174, 192, 0.25);
+  border-radius: 12px;
+  color: #edf2f7;
   text-decoration: none;
-  background: rgba(255, 255, 255, .05);
+  background: rgba(255, 255, 255, .04);
+  backdrop-filter: blur(2px);
   transition: transform .25s var(--ease), border-color .25s, background .25s;
 }
 
 .contact-path span {
-  color: var(--gold-bright);
+  color: #a0aec0;
   font: 600 .7rem var(--mono);
   letter-spacing: .09em;
   text-transform: uppercase;
@@ -88,24 +194,27 @@
 
 .contact-path strong {
   font: 700 clamp(1.45rem, 2.4vw, 2.1rem)/1.1 var(--display);
+  color: #ffffff;
 }
 
 .contact-path em {
-  color: #dbe5f1;
+  color: #cbd5e0;
   font-size: .86rem;
   font-style: normal;
 }
 
 .contact-path:hover {
-  transform: translateY(-5px);
-  border-color: var(--gold);
-  background: rgba(255, 218, 0, .1);
+  transform: translateY(-4px);
+  border-color: #a0aec0;
+  background: rgba(160, 174, 192, .08);
 }
 
+/* ---------- NEWS CARD HIGHLIGHT ---------- */
 .news-card.highlight {
-  border-top: 4px solid var(--accent);
+  border-top: 4px solid #718096;
 }
 
+/* ---------- RESPONSIVE ---------- */
 @media (max-width: 970px) {
   .affiliation-grid,
   .contact-paths {
@@ -127,4 +236,69 @@
   .affiliation-card {
     transition: none;
   }
+  .gold-text {
+    animation: none;
+  }
+}
+
+/* ---------- CONTACT / DARK SECTIONS (warm brown) ---------- */
+.section-dark {
+  background: radial-gradient(circle at 70% 20%, rgba(200, 180, 160, 0.10), transparent 45%),
+              linear-gradient(160deg, #3d2a20 0%, #2c1a12 100%) !important;
+  border-color: rgba(160, 140, 120, 0.20) !important;
+}
+
+/* ---------- FOOTER (warm beige/brown) ---------- */
+.site-footer {
+  background: linear-gradient(160deg, #2c1a12 0%, #1a0f0c 100%) !important;
+  border-top: 1px solid rgba(160, 140, 120, 0.15) !important;
+}
+
+/* Remove the gold shimmer strip at the top of the footer */
+.site-footer::before {
+  display: none !important;
+}
+
+/* Footer text – warm, muted, readable */
+.site-footer p,
+.footer-shell p {
+  color: #b5a392 !important;
+}
+
+.footer-shell a {
+  color: #d4c5b5 !important;
+  font-weight: 500;
+}
+
+.footer-shell a:hover {
+  color: #f0e2d4 !important;
+  text-decoration: underline;
+}
+
+/* ---------- HEADSHOT (wider, keep height fixed) ---------- */
+.home-page .headshot-frame {
+  width: 100% !important;
+  max-width: 640px !important;
+  height: 392px !important;
+  aspect-ratio: unset !important;
+}
+
+.home-page .headshot-frame img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+/* ---------- KEYWORD MARQUEE (match warm brown palette, remove blue) ---------- */
+.keyword-marquee {
+  background: #2c1a12 !important;          /* deep warm brown, matches footer */
+  border-top: 1px solid rgba(160, 140, 120, 0.25) !important;
+  border-bottom: 1px solid rgba(160, 140, 120, 0.25) !important;
+}
+
+.marquee-track span {
+  color: #d4c5b5 !important;               /* warm beige/stone, not gold */
+}
+
+.marquee-track span::after {
+  color: rgba(160, 140, 120, 0.4) !important; /* matching separator */
 }

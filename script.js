@@ -109,216 +109,326 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ---------- Live predator–prey phase portrait ---------- */
+  /* ============================================================
+     HERO CANVAS: Golden Spiral (rotating particles) — tiny dots
+     ============================================================ */
   const canvas = document.getElementById('phase-canvas');
   if (canvas && canvas.getContext) {
     const ctx = canvas.getContext('2d');
     let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    // Lotka–Volterra: x' = a x - b xy ,  y' = -c y + d xy  (equilibrium at (c/d, a/b))
-    const A = 1, B = 1, C = 1, D = 1;
-    const deriv = (x, y) => [A * x - B * x * y, -C * y + D * x * y];
-    const rk4 = (x, y, dt) => {
-      const [k1x, k1y] = deriv(x, y);
-      const [k2x, k2y] = deriv(x + 0.5 * dt * k1x, y + 0.5 * dt * k1y);
-      const [k3x, k3y] = deriv(x + 0.5 * dt * k2x, y + 0.5 * dt * k2y);
-      const [k4x, k4y] = deriv(x + dt * k3x, y + dt * k3y);
-      return [x + dt / 6 * (k1x + 2 * k2x + 2 * k3x + k4x), y + dt / 6 * (k1y + 2 * k2y + 2 * k3y + k4y)];
-    };
-    // Build one closed orbit starting at (x0,1), integrate until it crosses y=1 (x>1) going upward again.
-    const buildOrbit = (x0) => {
-      const pts = []; let x = x0, y = 1; const dt = 0.012; let prevY = y; let steps = 0;
-      while (steps < 60000) {
-        pts.push([x, y]);
-        const [nx, ny] = rk4(x, y, dt);
-        if (steps > 50 && prevY < 1 && ny >= 1 && nx > 1) { pts.push([nx, ny]); break; }
-        prevY = y; x = nx; y = ny; steps++;
-      }
-      return pts;
-    };
+    // Configuration
+    const NUM_PARTICLES = 150;
+    const SPIRAL_TURNS = 4;
+    const GROWTH_RATE = 0.3;
+    const ROTATION_SPEED = 0.008;
 
-    const orbits = [0.35, 0.7, 1.1, 1.55, 2.05].map((r) => ({
-      pts: buildOrbit(1 + r),
-      head: Math.random(),                 // particle position (0..1 along orbit)
-      speed: 0.00035 + Math.random() * 0.0002
-    }));
+    let particles = [];
+    let angleOffset = 0;
 
-    // Phase-space bounds for mapping
-    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    orbits.forEach((o) => o.pts.forEach(([x, y]) => {
-      if (x < minX) minX = x; if (x > maxX) maxX = x;
-      if (y < minY) minY = y; if (y > maxY) maxY = y;
-    }));
-    const padX = (maxX - minX) * 0.12, padY = (maxY - minY) * 0.12;
-    minX -= padX; maxX += padX; minY -= padY; maxY += padY;
-
-    let scale = 1, offX = 0, offY = 0, cx = 0, cy = 0;
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      W = rect.width; H = rect.height;
-      canvas.width = W * dpr; canvas.height = H * dpr;
+      W = rect.width;
+      H = rect.height;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      // fit the portrait into a square region, anchored toward the right on wide screens
-      const region = Math.min(W, H) * 0.92;
-      scale = region / Math.max(maxX - minX, maxY - minY);
-      cx = W > 760 ? W * 0.7 : W * 0.5;
-      cy = H * 0.5;
-      offX = cx - ((minX + maxX) / 2) * scale;
-      offY = cy + ((minY + maxY) / 2) * scale;
     };
-    const mapX = (x) => x * scale + offX;
-    const mapY = (y) => offY - y * scale;
     resize();
-    window.addEventListener('resize', () => { dpr = Math.min(window.devicePixelRatio || 1, 2); resize(); }, { passive: true });
+    window.addEventListener('resize', resize, { passive: true });
 
-    const drawStatic = () => {
+    // Initialize particles along a Fibonacci / Golden spiral
+    function initParticles() {
+      particles = [];
+      const centerX = W / 2;
+      const centerY = H / 2;
+      const maxRadius = Math.min(W, H) * 0.4;
+      const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+      for (let i = 0; i < NUM_PARTICLES; i++) {
+        const t = i / NUM_PARTICLES;
+        const radius = maxRadius * Math.pow(t, 0.7);
+        const angle = goldenAngle * i * 2;
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+
+        // --- TINY PARTICLES (0.5 to 1.5 px) ---
+        const size = 0.5 + 1.0 * (1 - t);
+        const opacity = 0.4 + 0.6 * (1 - t);
+        particles.push({
+          x, y,
+          baseX: x,
+          baseY: y,
+          radius: radius,
+          angle: angle,
+          size: size,
+          opacity: opacity,
+          phase: i / NUM_PARTICLES * Math.PI * 2,
+        });
+      }
+    }
+
+    function render() {
+      angleOffset += ROTATION_SPEED;
       ctx.clearRect(0, 0, W, H);
-      orbits.forEach((o) => {
-        ctx.beginPath();
-        o.pts.forEach(([x, y], i) => { const px = mapX(x), py = mapY(y); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); });
-        ctx.strokeStyle = 'rgba(187,141,10,0.28)'; ctx.lineWidth = 1.1; ctx.stroke();
-      });
-    };
 
-    if (reduceMotion) { drawStatic(); }
-    else {
-      const render = () => {
-        ctx.clearRect(0, 0, W, H);
-        // faint full orbits
-        orbits.forEach((o) => {
-          ctx.beginPath();
-          o.pts.forEach(([x, y], i) => { const px = mapX(x), py = mapY(y); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); });
-          ctx.strokeStyle = 'rgba(187,141,10,0.16)'; ctx.lineWidth = 1; ctx.stroke();
-        });
-        // glowing comet trails
-        orbits.forEach((o) => {
-          const n = o.pts.length; const trail = Math.floor(n * 0.16);
-          const headIdx = Math.floor(o.head * n) % n;
-          for (let k = trail; k >= 0; k--) {
-            const idx = (headIdx - k + n) % n;
-            const [x, y] = o.pts[idx];
-            const t = 1 - k / trail;
-            ctx.beginPath();
-            ctx.arc(mapX(x), mapY(y), 0.6 + t * 2.2, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(244,197,66,${0.05 + t * 0.55})`;
-            ctx.fill();
-          }
-          const [hx, hy] = o.pts[headIdx];
-          ctx.beginPath(); ctx.arc(mapX(hx), mapY(hy), 3.4, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255,231,150,0.95)'; ctx.shadowColor = 'rgba(244,197,66,0.9)'; ctx.shadowBlur = 14; ctx.fill(); ctx.shadowBlur = 0;
-          o.head = (o.head + o.speed) % 1;
-        });
-        // equilibrium point with pulse
-        const pulse = 3 + Math.sin(performance.now() / 600) * 1.4;
-        ctx.beginPath(); ctx.arc(mapX(C / D), mapY(A / B), pulse, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(244,197,66,0.85)'; ctx.shadowColor = 'rgba(244,197,66,0.8)'; ctx.shadowBlur = 16; ctx.fill(); ctx.shadowBlur = 0;
-        requestAnimationFrame(render);
-      };
+      const centerX = W / 2;
+      const centerY = H / 2;
+      const maxRadius = Math.min(W, H) * 0.4;
+
+      // Draw particles with reduced glow
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        const angle = p.angle + angleOffset;
+        const radius = p.radius * (1 + 0.05 * Math.sin(angleOffset * 0.5 + p.phase));
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+
+        ctx.beginPath();
+        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+        const t = radius / maxRadius;
+        const hue = 45 + 180 * t;
+        const lightness = 60 + 30 * (1 - t);
+        ctx.fillStyle = `hsla(${hue}, 90%, ${lightness}%, ${p.opacity})`;
+        // --- Reduced glow (2 to 4 px) ---
+        const blur = 2 + 2 * (1 - t);
+        ctx.shadowColor = `hsla(${hue}, 90%, 70%, 0.4)`;
+        ctx.shadowBlur = blur;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      // Faint connecting lines
+      ctx.beginPath();
+      for (let i = 0; i < particles.length - 1; i++) {
+        const p1 = particles[i];
+        const p2 = particles[i + 1];
+        const angle1 = p1.angle + angleOffset;
+        const radius1 = p1.radius * (1 + 0.05 * Math.sin(angleOffset * 0.5 + p1.phase));
+        const angle2 = p2.angle + angleOffset;
+        const radius2 = p2.radius * (1 + 0.05 * Math.sin(angleOffset * 0.5 + p2.phase));
+        const x1 = centerX + radius1 * Math.cos(angle1);
+        const y1 = centerY + radius1 * Math.sin(angle1);
+        const x2 = centerX + radius2 * Math.cos(angle2);
+        const y2 = centerY + radius2 * Math.sin(angle2);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+      }
+      ctx.strokeStyle = 'rgba(255,218,0,0.10)';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+
       requestAnimationFrame(render);
     }
+
+    initParticles();
+
+    if (reduceMotion) {
+      // Static fallback
+      render = function() {
+        ctx.clearRect(0, 0, W, H);
+        const centerX = W / 2;
+        const centerY = H / 2;
+        const maxRadius = Math.min(W, H) * 0.4;
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          const angle = p.angle;
+          const radius = p.radius;
+          const x = centerX + radius * Math.cos(angle);
+          const y = centerY + radius * Math.sin(angle);
+          ctx.beginPath();
+          ctx.arc(x, y, p.size, 0, Math.PI * 2);
+          const t = radius / maxRadius;
+          const hue = 45 + 180 * t;
+          const lightness = 60 + 30 * (1 - t);
+          ctx.fillStyle = `hsla(${hue}, 90%, ${lightness}%, ${p.opacity})`;
+          ctx.fill();
+        }
+        ctx.beginPath();
+        for (let i = 0; i < particles.length - 1; i++) {
+          const p1 = particles[i];
+          const p2 = particles[i + 1];
+          const x1 = centerX + p1.radius * Math.cos(p1.angle);
+          const y1 = centerY + p1.radius * Math.sin(p1.angle);
+          const x2 = centerX + p2.radius * Math.cos(p2.angle);
+          const y2 = centerY + p2.radius * Math.sin(p2.angle);
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+        }
+        ctx.strokeStyle = 'rgba(255,218,0,0.10)';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      };
+      render();
+    } else {
+      requestAnimationFrame(render);
+    }
+
+    window.addEventListener('resize', () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      resize();
+      initParticles();
+    }, { passive: true });
   }
 
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  /* ---------- Ambient field: neural nets + DNA helices + data constellation ---------- */
-  (function ambientField() {
+  /* ============================================================
+     AMBIENT FIELD: Lorenz Attractor on dark sections
+     (scaled down to 50% of previous size)
+     ============================================================ */
+  (function ambientLorenz() {
     const hosts = document.querySelectorAll('.page-banner, .section-dark, .site-footer');
     if (!hosts.length) return;
-    const TAU = Math.PI * 2;
+
+    // Lorenz parameters
+    const sigma = 10, rho = 28, beta = 8/3;
+    const dt = 0.008;
+    const trailLen = 300;
+
     const fields = [];
-    // deterministic per-page seed so each page carries its own coherent vector field
-    let seed = 0; for (const ch of (location.pathname || '/')) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
-    const sd = (seed % 1000) / 1000;
-    const K1 = 0.0017 + sd * 0.0013, K2 = 0.0012 + (1 - sd) * 0.0013, K3 = 0.0007 + sd * 0.0006, PH = sd * TAU;
-    let T = 0;                                  // slow global time → the field gently "breathes"
-    const angleAt = (x, y) => Math.sin(x * K1 + PH + T) + Math.cos(y * K2 - T * 0.7) + 0.6 * Math.sin((x + y) * K3 + T * 0.5);
-    const vel = (x, y) => { const a = angleAt(x, y) * Math.PI; return [Math.cos(a), Math.sin(a)]; };
-    const GOLD = '187,141,10', GOLD_HI = '244,197,66', CYAN = '120,196,214';
-
-    // (legacy ML motifs removed — the background is now the vector-field system below)
-
-    const spawn = (f, anywhere) => ({
-      x: Math.random() * f.w,
-      y: anywhere ? Math.random() * f.h : (Math.random() < 0.5 ? -8 : f.h + 8),
-      trail: [], life: 0, max: 120 + Math.random() * 170,
-      accent: Math.random() < 0.12, lw: 0.7 + Math.random() * 1.1, sp: 0.7 + Math.random() * 0.7
-    });
-
-    const drawDirField = (f) => {              // a slope / direction field — quintessential ODE imagery
-      const { ctx, grid } = f, L = grid * 0.42;
-      ctx.lineWidth = 1; ctx.lineCap = 'round'; ctx.strokeStyle = `rgba(${GOLD},0.10)`;
-      for (let gx = grid * 0.5; gx < f.w; gx += grid)
-        for (let gy = grid * 0.5; gy < f.h; gy += grid) {
-          const [vx, vy] = vel(gx, gy);
-          ctx.beginPath();
-          ctx.moveTo(gx - vx * L * 0.5, gy - vy * L * 0.5);
-          ctx.lineTo(gx + vx * L * 0.5, gy + vy * L * 0.5);
-          ctx.stroke();
-        }
-    };
-
-    const sizeField = (f) => {
-      const r = f.host.getBoundingClientRect();
-      f.w = r.width; f.h = r.height;
-      f.c.width = f.w * f.dpr; f.c.height = f.h * f.dpr;
-      f.ctx.setTransform(f.dpr, 0, 0, f.dpr, 0, 0);
-      f.grid = Math.max(42, Math.min(72, Math.round(Math.min(f.w, f.h) / 8)));
-      const n = Math.max(12, Math.min(120, Math.round((f.w * f.h) / 8000)));
-      f.parts = []; for (let i = 0; i < n; i++) f.parts.push(spawn(f, true));
-    };
-
-    const drawField = (f) => {
-      const { ctx, w, h } = f;
-      ctx.clearRect(0, 0, w, h);
-      drawDirField(f);
-      ctx.lineCap = 'round';
-      for (const p of f.parts) {
-        const t = p.trail, fade = 1 - p.life / p.max;
-        for (let i = 1; i < t.length; i++) {
-          const a = (i / t.length) * fade * 0.55;
-          ctx.strokeStyle = p.accent ? `rgba(${CYAN},${a})` : `rgba(${GOLD_HI},${a})`;
-          ctx.lineWidth = p.lw * (i / t.length) + 0.2;
-          ctx.beginPath(); ctx.moveTo(t[i - 1].x, t[i - 1].y); ctx.lineTo(t[i].x, t[i].y); ctx.stroke();
-        }
-        if (t.length) {
-          const head = t[t.length - 1];
-          ctx.beginPath(); ctx.arc(head.x, head.y, p.lw + 0.6, 0, TAU);
-          ctx.fillStyle = p.accent ? `rgba(190,228,240,${fade * 0.9})` : `rgba(255,231,150,${fade * 0.9})`;
-          ctx.shadowColor = p.accent ? `rgba(${CYAN},0.85)` : `rgba(${GOLD_HI},0.85)`;
-          ctx.shadowBlur = 7 * fade; ctx.fill(); ctx.shadowBlur = 0;
-        }
-      }
-    };
-
-    const stepField = (f) => {
-      for (let i = 0; i < f.parts.length; i++) {
-        const p = f.parts[i];
-        const [vx, vy] = vel(p.x, p.y);
-        p.x += vx * p.sp; p.y += vy * p.sp; p.life++;
-        p.trail.push({ x: p.x, y: p.y }); if (p.trail.length > 18) p.trail.shift();
-        if (p.life > p.max || p.x < -14 || p.x > f.w + 14 || p.y < -14 || p.y > f.h + 14) f.parts[i] = spawn(f, false);
-      }
-      T += 0.0008;
-    };
 
     hosts.forEach((host) => {
       const c = document.createElement('canvas');
-      c.className = 'bg-canvas'; c.setAttribute('aria-hidden', 'true');
+      c.className = 'bg-canvas';
+      c.setAttribute('aria-hidden', 'true');
       host.insertBefore(c, host.firstChild);
-      const f = { host, c, ctx: c.getContext('2d'), dpr: Math.min(window.devicePixelRatio || 1, 2), w: 0, h: 0, pts: [], visible: true };
-      sizeField(f); fields.push(f);
+
+      const ctx = c.getContext('2d');
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let W = 0, H = 0;
+      let trail = [];
+      let x = (Math.random() - 0.5) * 0.2;
+      let y = (Math.random() - 0.5) * 0.2;
+      let z = (Math.random() - 0.5) * 0.2;
+      let rotAngle = Math.random() * Math.PI * 2;
+      let time = 0;
+
+      const resize = () => {
+        const rect = host.getBoundingClientRect();
+        W = rect.width;
+        H = rect.height;
+        c.width = W * dpr;
+        c.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+      resize();
+
+      // Project 3D to 2D with rotation, centering the attractor
+      function project(x, y, z) {
+        const zOffset = rho - 1;
+        const zShifted = z - zOffset;
+
+        const cosA = Math.cos(rotAngle);
+        const sinA = Math.sin(rotAngle);
+        const rx = x * cosA + zShifted * sinA;
+        const rz = -x * sinA + zShifted * cosA;
+
+        const cosB = Math.cos(0.4);
+        const sinB = Math.sin(0.4);
+        const ry = y * cosB - rz * sinB;
+
+        // Scaled down to 50% (divisor 40 instead of 20)
+        const scale = Math.min(W, H) / 40;
+        const cx = W / 2, cy = H / 2;
+
+        return { sx: cx + rx * scale, sy: cy - ry * scale };
+      }
+
+      const field = {
+        ctx, c, dpr, host,
+        trail, x, y, z, rotAngle, time,
+        resize, project, dt,
+        visible: true,
+      };
+
+      fields.push(field);
+
+      for (let i = 0; i < 100; i++) {
+        const dx = sigma * (field.y - field.x);
+        const dy = field.x * (rho - field.z) - field.y;
+        const dz = field.x * field.y - beta * field.z;
+        field.x += dx * dt;
+        field.y += dy * dt;
+        field.z += dz * dt;
+        field.trail.push({ x: field.x, y: field.y, z: field.z });
+        if (field.trail.length > trailLen) field.trail.shift();
+      }
     });
 
-    fields.forEach(drawField);            // paint an initial frame at once (also covers throttled/paused rAF)
+    function drawField(f) {
+      const { ctx, w, h, trail } = f;
+      ctx.clearRect(0, 0, w, h);
+      if (trail.length < 2) return;
+
+      for (let i = 1; i < trail.length; i++) {
+        const p1 = trail[i - 1];
+        const p2 = trail[i];
+        const pt1 = f.project(p1.x, p1.y, p1.z);
+        const pt2 = f.project(p2.x, p2.y, p2.z);
+        const t = i / trail.length;
+        const hue = 45 + 160 * t;
+        const alpha = 0.2 + 0.6 * t;
+        ctx.beginPath();
+        ctx.moveTo(pt1.sx, pt1.sy);
+        ctx.lineTo(pt2.sx, pt2.sy);
+        ctx.strokeStyle = `hsla(${hue}, 90%, 60%, ${alpha})`;
+        ctx.lineWidth = 1 + 2 * t;
+        ctx.stroke();
+      }
+
+      if (trail.length) {
+        const head = trail[trail.length - 1];
+        const pt = f.project(head.x, head.y, head.z);
+        const grad = ctx.createRadialGradient(pt.sx, pt.sy, 0, pt.sx, pt.sy, 10);
+        grad.addColorStop(0, 'rgba(255, 218, 0, 0.6)');
+        grad.addColorStop(1, 'rgba(255, 218, 0, 0)');
+        ctx.beginPath();
+        ctx.arc(pt.sx, pt.sy, 10, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+      }
+    }
+
+    function stepField(f) {
+      const dx = sigma * (f.y - f.x);
+      const dy = f.x * (rho - f.z) - f.y;
+      const dz = f.x * f.y - beta * f.z;
+      f.x += dx * dt;
+      f.y += dy * dt;
+      f.z += dz * dt;
+      f.trail.push({ x: f.x, y: f.y, z: f.z });
+      if (f.trail.length > trailLen) f.trail.shift();
+      f.rotAngle += 0.001;
+      f.time += 1;
+    }
+
+    fields.forEach((f) => {
+      const rect = f.host.getBoundingClientRect();
+      f.w = rect.width;
+      f.h = rect.height;
+      f.c.width = f.w * f.dpr;
+      f.c.height = f.h * f.dpr;
+      f.ctx.setTransform(f.dpr, 0, 0, f.dpr, 0, 0);
+      drawField(f);
+    });
+
     if (!reduceMotion) {
       const loop = () => {
-        for (const f of fields) { if (f.visible) { stepField(f); drawField(f); } }
+        for (const f of fields) {
+          if (f.visible) {
+            stepField(f);
+            drawField(f);
+          }
+        }
         requestAnimationFrame(loop);
       };
       requestAnimationFrame(loop);
+
       if ('IntersectionObserver' in window) {
         const vio = new IntersectionObserver((entries) => {
-          entries.forEach((e) => { const f = fields.find((x) => x.host === e.target); if (f) f.visible = e.isIntersecting; });
+          entries.forEach((e) => {
+            const f = fields.find((x) => x.host === e.target);
+            if (f) f.visible = e.isIntersecting;
+          });
         }, { threshold: 0 });
         fields.forEach((f) => vio.observe(f.host));
       }
@@ -327,11 +437,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let rt;
     window.addEventListener('resize', () => {
       clearTimeout(rt);
-      rt = setTimeout(() => fields.forEach((f) => { f.dpr = Math.min(window.devicePixelRatio || 1, 2); sizeField(f); if (reduceMotion) drawField(f); }), 160);
+      rt = setTimeout(() => {
+        fields.forEach((f) => {
+          f.dpr = Math.min(window.devicePixelRatio || 1, 2);
+          f.resize();
+          f.w = f.c.width / f.dpr;
+          f.h = f.c.height / f.dpr;
+        });
+      }, 160);
     }, { passive: true });
   })();
 
   /* ---------- Hero pointer parallax ---------- */
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (!reduceMotion && finePointer) {
     const hero = document.querySelector('.home-page .hero');
     if (hero) {
@@ -382,7 +500,6 @@ document.addEventListener('DOMContentLoaded', () => {
     rail.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update, { passive: true });
     update();
-    // drag-to-scroll (desktop), without breaking link clicks
     if (finePointer) {
       let down = false, moved = false, sx = 0, sl = 0;
       rail.addEventListener('pointerdown', (e) => { if (e.button !== 0) return; down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('grabbing'); });

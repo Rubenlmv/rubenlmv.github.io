@@ -4,10 +4,11 @@
 
 /* ---------- HERO ---------- */
 .home-page .hero {
-  min-height: 640px; padding: 104px 0 96px; color: #f7f9fc; border: 0;
-  background: radial-gradient(circle at 82% 16%, rgba(255,218,0,.34), transparent 40%),
-              radial-gradient(circle at 6% 100%, rgba(255,218,0,.22), transparent 38%),
-              linear-gradient(150deg, #071b35 0%, #0b2c58 55%, #15397f 100%);
+  min-height: 640px;
+  padding: 104px 0 96px;
+  color: #f7f9fc;
+  border: 0;
+  background: linear-gradient(160deg, #c2b2a0 0%, #8a705a 45%, #5a3d30 75%, #2c1a12 100%);
 }
 .home-page .hero::before {
   content:''; position:absolute; inset:-80px; opacity:.4; pointer-events:none;
