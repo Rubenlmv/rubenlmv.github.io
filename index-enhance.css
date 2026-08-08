@@ -1,5 +1,5 @@
 /* ============================================================
-   Homepage — Toledo midnight blue and gold, motion edition
+   Homepage — Warm beige/brown palette, fully responsive
    ============================================================ */
 
 /* ---------- HERO ---------- */
@@ -204,54 +204,224 @@
 /* ---------- FOOTER LINKS ---------- */
 .footer-links { display:flex; gap:18px; flex-wrap:wrap; }
 
-/* ---------- RESPONSIVE ---------- */
-@media(max-width:970px){
-  .home-page .hero-grid{grid-template-columns:minmax(0,1fr) 240px;gap:44px}
-  .home-page .headshot-frame{width:240px;height:300px}
-  .affiliation-grid{grid-template-columns:repeat(2,1fr)}
-  .affiliation-card:nth-child(2){border-right:0}
-  .focus-layout{grid-template-columns:1fr;gap:34px}
-  .focus-figure{max-height:360px}
-  .contact-grid,.focus-grid,.profile-links{grid-template-columns:1fr 1fr}
-  .contact-grid{grid-template-columns:1fr;gap:34px}
-  .office-grid{grid-template-columns:1fr;gap:34px}
-  .office-map iframe{height:340px}
+/* ---------- RESPONSIVE (beige/brown palette on all breakpoints) ---------- */
+
+/* --- Tablets & small laptops (max-width: 970px) --- */
+@media (max-width: 970px) {
+  .home-page .hero {
+    background: linear-gradient(160deg, #c2b2a0 0%, #8a705a 45%, #5a3d30 75%, #2c1a12 100%) !important;
+  }
+  .home-page .hero-grid {
+    grid-template-columns: minmax(0, 1fr) 280px !important;
+    gap: 40px !important;
+  }
+  .home-page .headshot-frame {
+    width: 240px !important;
+    height: 300px !important;
+    max-width: 100% !important;
+  }
+  .affiliation-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .affiliation-card:nth-child(2) {
+    border-right: 0 !important;
+  }
+  .focus-layout {
+    grid-template-columns: 1fr !important;
+    gap: 34px !important;
+  }
+  .focus-figure {
+    max-height: 320px !important;
+  }
+  .contact-grid,
+  .focus-grid,
+  .profile-links {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 34px !important;
+  }
+  .office-grid {
+    grid-template-columns: 1fr !important;
+    gap: 34px !important;
+  }
+  .office-map iframe {
+    height: 300px !important;
+  }
+  .home-page .hero h1 {
+    font-size: clamp(2.8rem, 5vw, 4rem) !important;
+  }
+  .home-page .hero-role {
+    font-size: 1.2rem !important;
+  }
+  .home-page .hero-intro {
+    font-size: 1rem !important;
+  }
 }
-@media(max-width:680px){
-  .home-page .hero-grid{grid-template-columns:1fr}
-  .home-page .headshot-frame{width:210px;height:262px}
-  .headshot-tag{left:8px;right:8px;bottom:10px;text-align:center}
-  .affiliation-grid{grid-template-columns:1fr}
-  .affiliation-card{min-height:auto;border-right:0;border-bottom:1px solid var(--line);flex-direction:row;text-align:left;gap:20px}
-  .affiliation-card .affiliation-logo-box{width:96px;flex:none}
-  .affiliation-card .affiliation-logo-box.jhu{width:96px;min-height:0;margin:0;padding:0}
-  .affiliation-card .affiliation-logo-box.jhu img{max-height:64px}
-  .affiliation-card:last-child{border-bottom:0}
-  .focus-section,.home-profiles,.news-section,.home-contact{padding:62px 0}
-  .focus-grid,.profile-links{grid-template-columns:1fr}
-  .news-card{flex-basis:84vw;max-width:84vw}
-  .news-arrow{display:none}
+
+/* --- Small tablets & large phones (max-width: 680px) --- */
+@media (max-width: 680px) {
+  .home-page .hero {
+    background: linear-gradient(160deg, #c2b2a0 0%, #8a705a 45%, #5a3d30 75%, #2c1a12 100%) !important;
+    padding: 60px 0 40px !important;
+  }
+  .home-page .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .home-page .headshot-frame {
+    width: 210px !important;
+    height: 262px !important;
+    max-width: 60% !important;
+    margin: 0 auto !important;
+  }
+  .headshot-tag {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 10px !important;
+    text-align: center !important;
+  }
+  .affiliation-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .affiliation-card {
+    min-height: auto !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+    flex-direction: row !important;
+    text-align: left !important;
+    gap: 20px !important;
+  }
+  .affiliation-card .affiliation-logo-box {
+    width: 96px !important;
+    flex: none !important;
+  }
+  .affiliation-card .affiliation-logo-box.jhu {
+    width: 96px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .affiliation-card .affiliation-logo-box.jhu img {
+    max-height: 64px !important;
+  }
+  .affiliation-card:last-child {
+    border-bottom: 0 !important;
+  }
+  .focus-section,
+  .home-profiles,
+  .news-section,
+  .home-contact {
+    padding: 62px 0 !important;
+  }
+  .focus-grid,
+  .profile-links {
+    grid-template-columns: 1fr !important;
+  }
+  .news-card {
+    flex-basis: 84vw !important;
+    max-width: 84vw !important;
+  }
+  .news-arrow {
+    display: none !important;
+  }
+  .home-page .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 3.2rem) !important;
+  }
+  .home-page .hero-role {
+    font-size: 1.1rem !important;
+  }
+  .home-page .hero-intro {
+    font-size: 0.95rem !important;
+  }
 }
-/* ---------- PHONES: home hero made readable, lighter, easy to tap ---------- */
+
+/* --- Phones (max-width: 640px) --- */
 @media (max-width: 640px) {
   .home-page .hero {
-    min-height: auto; padding: 80px 0 52px;
-    background: radial-gradient(circle at 82% 14%, rgba(255,218,0,.26), transparent 48%),
-                linear-gradient(160deg, #0a244a 0%, #0d3167 58%, #15397f 100%);
+    min-height: auto;
+    padding: 60px 0 40px;
+    background: linear-gradient(160deg, #c2b2a0 0%, #8a705a 45%, #5a3d30 75%, #2c1a12 100%) !important;
   }
-  .home-page .hero::before { opacity: .2; }
-  #phase-canvas { opacity: .5; }
-  .home-page .hero-orbs span { opacity: .3; }
-  /* the name fits the screen now */
-  .home-page .hero h1 { font-size: clamp(2.05rem, 9vw, 3rem); line-height: 1.04; letter-spacing: -.02em; text-shadow: 0 2px 16px rgba(0,0,0,.35); }
-  .home-page .hero-role { font-size: 1.1rem; }
-  .home-page .hero-intro { font-size: 1.02rem; }
-  /* full-width, comfortable tap targets */
-  .home-page .hero-links { flex-direction: column; gap: 10px; margin-top: 24px; }
-  .home-page .hero-links .text-action { width: 100%; justify-content: center; min-height: 50px; font-size: .95rem; }
-  .hero-social { gap: 8px; }
-  .hero-social a { flex: 1 1 0; justify-content: center; min-height: 42px; }
-  .btn-gold { width: 100%; justify-content: center; min-height: 52px; }
-  .hero-email { font-size: .82rem; word-break: break-all; }
-  .contact-map iframe { height: 220px; }
+  .home-page .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .home-page .hero-copy {
+    grid-column: 1 !important;
+    max-width: 100% !important;
+    text-align: center;
+  }
+  .hero-details {
+    grid-column: 1 !important;
+    padding-top: 0 !important;
+    text-align: center;
+  }
+  .home-page .hero h1 {
+    font-size: clamp(2.2rem, 8vw, 3rem) !important;
+    line-height: 1.1 !important;
+    text-align: center;
+  }
+  .home-page .headshot-frame {
+    width: 180px !important;
+    max-width: 60% !important;
+    height: auto !important;
+    aspect-ratio: 320 / 392 !important;
+    margin: 0 auto 10px !important;
+  }
+  .home-page .headshot-frame img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  .home-page .hero-role {
+    font-size: 1.1rem !important;
+    text-align: center;
+  }
+  .home-page .hero-intro {
+    font-size: 1rem !important;
+    text-align: center;
+    max-width: 100% !important;
+  }
+  .home-page .hero-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 20px !important;
+  }
+  .home-page .hero-links .text-action {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+    font-size: 0.95rem !important;
+  }
+  .hero-social {
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+  .hero-social a {
+    flex: 0 1 auto !important;
+    min-height: 38px !important;
+    font-size: 0.75rem !important;
+  }
+  .hero-email {
+    font-size: 0.82rem !important;
+    word-break: break-all !important;
+    margin: 10px auto 0 !important;
+    justify-content: center !important;
+  }
+  .keyword-marquee {
+    padding: 12px 0 !important;
+  }
+  .marquee-track span {
+    font-size: 0.7rem !important;
+    padding: 0 16px !important;
+  }
+  .contact-map iframe {
+    height: 200px !important;
+  }
+  .home-page .hero::before {
+    opacity: 0.4 !important;
+  }
 }
