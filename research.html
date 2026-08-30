@@ -12,37 +12,72 @@
   </style>
 
   <!-- Primary Meta -->
-  <meta name="description" content="Talks, presentations, and research of Ruben Mamani-Velasco in noncommutative algebra, representation theory, Weyl algebras, and Hochschild cohomology.">
+  <meta name="description" content="Ruben Mamani-Velasco — PhD candidate in Pure Mathematics at the University of Toledo, specializing in noncommutative algebra and representation theory.">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <meta name="author" content="Ruben Mamani-Velasco">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://rubenlmv.github.io/research.html">
+  <link rel="canonical" href="https://rubenlmv.github.io/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Ruben Mamani-Velasco">
-  <meta property="og:title" content="Talks &amp; Research | Ruben Mamani-Velasco">
-  <meta property="og:description" content="Talks and presentations in noncommutative algebra, representation theory, Weyl algebras, and Hochschild cohomology.">
-  <meta property="og:url" content="https://rubenlmv.github.io/research.html">
+  <meta property="og:title" content="Ruben Mamani-Velasco | Noncommutative Algebra">
+  <meta property="og:description" content="PhD candidate in Pure Mathematics at the University of Toledo, working in noncommutative algebra and representation theory.">
+  <meta property="og:url" content="https://rubenlmv.github.io/">
   <meta property="og:image" content="https://avatars.githubusercontent.com/u/your_id?v=4">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Talks &amp; Research | Ruben Mamani-Velasco">
-  <meta name="twitter:description" content="Talks and presentations in noncommutative algebra and representation theory.">
+  <meta name="twitter:title" content="Ruben Mamani-Velasco">
+  <meta name="twitter:description" content="PhD candidate in Pure Mathematics at the University of Toledo.">
   <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/your_id?v=4">
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="styles.css?v=light-lock-2">
-  <link rel="stylesheet" href="pages-enhance.css?v=light-lock-2">
+  <link rel="stylesheet" href="index-enhance.css?v=light-lock-2">
   <link rel="stylesheet" href="toledo-theme.css?v=light-lock-2">
 
-  <title>Talks &amp; Research | Ruben Mamani-Velasco</title>
+  <title>Ruben Mamani-Velasco | Noncommutative Algebra</title>
+
+  <!-- JSON‑LD Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ruben Mamani-Velasco",
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "The University of Toledo"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Mayor de San Andres University"
+        }
+      ],
+      "url": "https://rubenlmv.github.io/",
+      "image": "https://avatars.githubusercontent.com/u/your_id?v=4",
+      "knowsAbout": [
+        "Noncommutative Algebra",
+        "Representation Theory",
+        "Ring Theory",
+        "Module Theory",
+        "Homological Algebra",
+        "Category Theory",
+        "Weyl Algebras"
+      ],
+      "sameAs": [
+        "https://github.com/your-username",
+        "https://www.linkedin.com/in/your-profile",
+        "https://scholar.google.com/citations?user=your-id"
+      ]
+    }
+  </script>
 
   <script src="script.js" defer></script>
 </head>
 
-<body>
+<body class="home-page">
 
   <div class="scroll-progress" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -59,150 +94,280 @@
         <span class="sr-only">Open menu</span>
       </button>
       <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
-        <a href="index.html">Home</a>
-        <a href="research.html" aria-current="page">Research</a>
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="research.html">Research</a>
         <a href="teaching.html">Teaching</a>
         <a href="presentations.html">Presentations</a>
         <a href="service.html">Service</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="#contact">Contact</a>
       </nav>
     </div>
   </header>
 
   <main id="main">
 
-    <!-- ======= PAGE BANNER ======= -->
-    <section class="page-banner">
-      <div class="shell narrow">
-        <p class="eyebrow">Talks &amp; Research</p>
-        <h1>Talks and presentations</h1>
-        <p>Invited, contributed, and seminar talks in noncommutative algebra, representation theory, Weyl algebras, and Hochschild cohomology.</p>
-        <!-- You can add a Google Scholar link here if you have one -->
-        <!-- <a class="banner-link" href="#" target="_blank" rel="noreferrer">View on Google Scholar ↗</a> -->
+    <!-- ======= HERO ======= -->
+    <section class="hero">
+      <canvas id="phase-canvas" aria-hidden="true"></canvas>
+      <div class="hero-orbs" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+
+      <div class="shell hero-grid">
+
+        <!-- LEFT: Name + photo -->
+        <div class="hero-copy">
+          <p class="eyebrow reveal">Ph.D. Candidate · University of Toledo</p>
+          <h1 class="reveal reveal-d1">
+            <span class="gold-text">Ruben Mamani‑Velasco</span>
+          </h1>
+          <div class="headshot-frame reveal reveal-d2">
+            <img src="assets/img/icon-512.png" alt="Ruben Mamani-Velasco">
+          </div>
+        </div>
+
+        <!-- RIGHT: Details -->
+        <div class="hero-details">
+          <p class="hero-role reveal reveal-d2">
+            Noncommutative Algebra · Representation Theory
+          </p>
+          <p class="hero-intro reveal reveal-d2">
+            PhD candidate in pure mathematics at the University of Toledo
+            (2021–2027), working in noncommutative algebra and representation theory.
+            My research focuses on ring theory, module theory, homological methods,
+            and their connections to category theory.
+          </p>
+          <div class="hero-links reveal reveal-d3">
+            <a class="text-action" href="research.html">Research</a>
+            <a class="text-action" href="presentations.html">Presentations</a>
+            <a class="text-action" href="#contact">Get in touch</a>
+          </div>
+
+          <div class="hero-social reveal reveal-d3" aria-label="Profiles">
+            <!-- Replace these # with your actual profile URLs -->
+            <a href="#" target="_blank" rel="noreferrer" aria-label="Google Scholar">
+              <span>Scholar</span>
+            </a>
+            <a href="#" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <span>LinkedIn</span>
+            </a>
+            <a href="#" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <span>GitHub</span>
+            </a>
+          </div>
+
+          <a class="hero-email reveal reveal-d3"
+             href="mailto:your-email@utoledo.edu"
+             target="_blank" rel="noreferrer">
+            <span class="he-ico" aria-hidden="true">✉</span>
+            your‑email@utoledo.edu
+          </a>
+        </div>
+
       </div>
     </section>
 
-    <!-- ======= TALKS TIMELINE ======= -->
-    <section class="record-section">
-      <div class="shell record-layout">
-        <aside class="reveal">
-          <p class="record-label">Talks &amp; presentations</p>
-          <p class="record-note">Listed in reverse chronological order. Types: Invited, Lightning, Contributed, Seminar.</p>
-        </aside>
-        <div class="record-main reveal reveal-d1">
-          <ul class="timeline">
+    <!-- ======= KEYWORD MARQUEE (Noncommutative Algebra focus) ======= -->
+    <div class="keyword-marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Noncommutative Algebra</span>
+        <span>Representation Theory</span>
+        <span>Ring Theory</span>
+        <span>Module Theory</span>
+        <span>Homological Algebra</span>
+        <span>Category Theory</span>
+        <span>Grothendieck Groups</span>
+        <span>Derived Categories</span>
+        <!-- repeat for seamless loop -->
+        <span>Noncommutative Algebra</span>
+        <span>Representation Theory</span>
+        <span>Ring Theory</span>
+        <span>Module Theory</span>
+        <span>Homological Algebra</span>
+        <span>Category Theory</span>
+        <span>Grothendieck Groups</span>
+        <span>Derived Categories</span>
+      </div>
+    </div>
 
-            <!-- 1. Invited Talk – SOBOLMAT 2026 -->
-            <li>
-              <div class="timeline-date">September 2026</div>
-              <div>
-                <span class="talk-format" style="background: #c2b2a0; color: #1a0f0c;">Invited Talk</span>
-                <h2>Modules over the Weyl algebra over Z/p²Z</h2>
-                <p><strong>27th Bolivian Mathematics Congress (SOBOLMAT)</strong><br>
-                Universidad Simón I. Patiño, Cochabamba, Bolivia.</p>
-              </div>
-            </li>
+    <!-- ======= AFFILIATIONS (Education & Research Experience) ======= -->
+    <section class="affiliations" aria-labelledby="affiliations-heading">
+      <div class="shell">
+        <p class="affiliation-intro reveal" id="affiliations-heading">
+          Education and research experience
+        </p>
+        <!-- Override grid to 2 columns inline -->
+        <div class="affiliation-grid" style="grid-template-columns: repeat(2, 1fr);">
 
-            <!-- 2. Invited Talk – ICM 2026 Satellite -->
-            <li>
-              <div class="timeline-date">July 2026</div>
-              <div>
-                <span class="talk-format" style="background: #c2b2a0; color: #1a0f0c;">Invited Talk</span>
-                <h2>Center and derivations of Generalized Weyl Algebras over Z/pⁿZ</h2>
-                <p><strong>ICM 2026 Satellite Conference on Algebraic and Geometric Representation Theory</strong><br>
-                University of Virginia.</p>
-              </div>
-            </li>
+          <!-- UToledo – PhD -->
+          <a class="affiliation-card reveal" href="https://www.utoledo.edu/" target="_blank" rel="noreferrer">
+            <div class="affiliation-logo-box utoledo">
+              <img src="https://www.utoledo.edu/images/UT_shield.svg" alt="The University of Toledo shield logo">
+            </div>
+            <div class="affiliation-body">
+              <small>Graduate education and research</small>
+              <h3>The University of Toledo</h3>
+              <p>Ph.D. in Pure Mathematics · 2021–2027 (expected)</p>
+            </div>
+          </a>
 
-            <!-- 3. Lightning Talk – Buckeye Metric Geometry Workshop -->
-            <li>
-              <div class="timeline-date">June 2026</div>
-              <div>
-                <span class="talk-format" style="background: #d4c5b5; color: #1a0f0c;">Lightning Talk</span>
-                <h2>The zeroth and first Hochschild cohomology of U(sl₂) over Z/pⁿZ</h2>
-                <p><strong>Buckeye Metric Geometry Workshop II</strong><br>
-                University of Toledo.</p>
-              </div>
-            </li>
+          <!-- UMSA – Bachelor's degree -->
+          <a class="affiliation-card reveal reveal-d1" href="https://repositorio.umsa.bo/handle/123456789/23718" target="_blank" rel="noreferrer">
+            <div class="affiliation-logo-box">
+              <!-- UMSA logo placeholder – you can add a logo if you have one -->
+              <img src="https://www.umsa.bo/images/logo-umsa.png" alt="Mayor de San Andres University logo" loading="lazy" style="max-height:70px;">
+            </div>
+            <div class="affiliation-body">
+              <small>Undergraduate education</small>
+              <h3>Mayor de San Andres University</h3>
+              <p>B.Sc. in Mathematics · 2019</p>
+              <p style="font-size:0.8rem; margin-top:6px; color:var(--gold-deep);">
+                Thesis: <em>Induced Ramsey theorem</em>
+                <br><span style="font-size:0.7rem;">(View repository)</span>
+              </p>
+            </div>
+          </a>
 
-            <!-- 4. Contributed Talk – Temple University -->
-            <li>
-              <div class="timeline-date">May 2026</div>
-              <div>
-                <span class="talk-format">Contributed Talk</span>
-                <h2>Center and derivations of Generalized Weyl Algebras over Z/pⁿZ</h2>
-                <p><strong>11th Annual Graduate Student Conference in Geometry, Topology, and Algebra</strong><br>
-                Temple University.</p>
-              </div>
-            </li>
-
-            <!-- 5. Algebra Seminar – UToledo, April 2026 -->
-            <li>
-              <div class="timeline-date">April 2026</div>
-              <div>
-                <span class="talk-format">Seminar Talk</span>
-                <h2>Center and derivations of Generalized Weyl Algebras over Z/pⁿZ</h2>
-                <p><strong>Algebra Seminar</strong><br>
-                University of Toledo.</p>
-              </div>
-            </li>
-
-            <!-- 6. Algebra Seminar – UToledo, March 2025 -->
-            <li>
-              <div class="timeline-date">March 2025</div>
-              <div>
-                <span class="talk-format">Seminar Talk</span>
-                <h2>On the category 𝒪 for generalized Weyl algebras</h2>
-                <p><strong>Algebra Seminar</strong><br>
-                University of Toledo.</p>
-              </div>
-            </li>
-
-            <!-- 7. Algebra Seminar – UToledo, April 2024 -->
-            <li>
-              <div class="timeline-date">April 2024</div>
-              <div>
-                <span class="talk-format">Seminar Talk</span>
-                <h2>Grothendieck Theorem</h2>
-                <p><strong>Algebra Seminar</strong><br>
-                University of Toledo.</p>
-              </div>
-            </li>
-
-          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ======= IMAGE GALLERY ======= -->
-    <section class="section section-alt">
+    <!-- ======= NEWS & UPDATES ======= -->
+    <section class="news-section" id="news">
       <div class="shell">
-        <div class="media-gallery two">
+        <header class="news-head">
+          <h2 class="section-title reveal">News &amp; updates</h2>
+        </header>
+        <div class="news-rail-wrap reveal reveal-d2">
+          <button class="news-arrow prev" type="button" aria-label="Previous updates">‹</button>
+          <ul class="news-rail">
+            <!-- Replace these with your own news -->
+            <li class="news-card highlight">
+              <div class="news-card-top">
+                <span class="news-source dot">★</span>
+                <span class="news-tag gold">New</span>
+              </div>
+              <time>August 2021</time>
+              <h3>Started PhD at UToledo</h3>
+              <p>Began doctoral studies in pure mathematics, focusing on noncommutative algebra and representation theory.</p>
+              <a class="news-link" href="research.html">Learn more →</a>
+            </li>
 
-          <figure class="media-card reveal">
-            <img src="assets/img/talk1.jpg" alt="Ruben Mamani-Velasco presenting at a conference" loading="lazy">
-            <figcaption>
-              <strong>Invited talk at SOBOLMAT 2026</strong>
-              <span>Presenting on Weyl algebras over Z/p²Z · Cochabamba, Bolivia</span>
-            </figcaption>
-          </figure>
+            <li class="news-card">
+              <div class="news-card-top">
+                <span class="news-source dot">★</span>
+                <span class="news-tag gold">Event</span>
+              </div>
+              <time>November 2025</time>
+              <h3>Presented at Algebra Seminar</h3>
+              <p>Gave a talk on recent developments in noncommutative algebra at the UToledo Algebra Seminar.</p>
+              <a class="news-link" href="presentations.html">See talk →</a>
+            </li>
 
-          <figure class="media-card reveal reveal-d1">
-            <img src="assets/img/talk2.jpg" alt="Ruben Mamani-Velasco at the blackboard" loading="lazy">
-            <figcaption>
-              <strong>Algebra Seminar talk</strong>
-              <span>Discussing category 𝒪 for generalized Weyl algebras · University of Toledo</span>
-            </figcaption>
-          </figure>
+            <li class="news-card">
+              <div class="news-card-top">
+                <span class="news-source dot">★</span>
+                <span class="news-tag gold">Milestone</span>
+              </div>
+              <time>2024</time>
+              <h3>Passed qualifying exams</h3>
+              <p>Successfully completed the written and oral qualifying exams in algebra and analysis.</p>
+              <a class="news-link" href="#">Details →</a>
+            </li>
 
-          <figure class="media-card reveal reveal-d2">
-            <img src="assets/img/talk3.jpg" alt="Ruben Mamani-Velasco with colleagues" loading="lazy">
-            <figcaption>
-              <strong>ICM 2026 Satellite Conference</strong>
-              <span>Algebraic and Geometric Representation Theory · University of Virginia</span>
-            </figcaption>
-          </figure>
+            <li class="news-card">
+              <div class="news-card-top">
+                <span class="news-source dot">★</span>
+                <span class="news-tag gold">Upcoming</span>
+              </div>
+              <time>2026</time>
+              <h3>Research visit / conference</h3>
+              <p>Planning to attend the AMS Spring Sectional Meeting to present on noncommutative ring theory.</p>
+              <a class="news-link" href="presentations.html">Details →</a>
+            </li>
+          </ul>
+          <button class="news-arrow next" type="button" aria-label="More updates">›</button>
+        </div>
+      </div>
+    </section>
 
+    <!-- ======= PROFILES & LINKS ======= -->
+    <section class="home-profiles">
+      <div class="shell">
+        <div class="section-header">
+          <div class="section-number reveal">Profiles and links</div>
+          <div>
+            <h2 class="section-title reveal reveal-d1">Find my academic work online</h2>
+            <p class="section-subtitle reveal reveal-d2">
+              Direct links to professional profiles and the main pages of this website.
+            </p>
+          </div>
+        </div>
+        <div class="profile-links">
+          <!-- Update these with your actual URLs -->
+          <a class="reveal" href="#" target="_blank" rel="noreferrer">
+            <span class="profile-icon">GS</span>
+            <div><strong>Google Scholar</strong><small>Publications and citations</small></div>
+            <em>↗</em>
+          </a>
+          <a class="reveal reveal-d1" href="#" target="_blank" rel="noreferrer">
+            <span class="profile-icon">in</span>
+            <div><strong>LinkedIn</strong><small>Professional profile</small></div>
+            <em>↗</em>
+          </a>
+          <a class="reveal reveal-d2" href="#" target="_blank" rel="noreferrer">
+            <span class="profile-icon">GH</span>
+            <div><strong>GitHub</strong><small>Code and technical projects</small></div>
+            <em>↗</em>
+          </a>
+          <a class="reveal" href="research.html">
+            <span class="profile-icon">R</span>
+            <div><strong>Research</strong><small>Publications, manuscripts, and dissertation</small></div>
+            <em>→</em>
+          </a>
+          <a class="reveal reveal-d1" href="teaching.html">
+            <span class="profile-icon">T</span>
+            <div><strong>Teaching</strong><small>Courses and instructional experience</small></div>
+            <em>→</em>
+          </a>
+          <a class="reveal reveal-d2" href="presentations.html">
+            <span class="profile-icon">P</span>
+            <div><strong>Presentations</strong><small>Talks, posters, and downloadable slides</small></div>
+            <em>→</em>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= CONTACT ======= -->
+    <section class="home-contact section-dark" id="contact">
+      <div class="shell">
+        <div class="section-header">
+          <div class="section-number reveal">Connect</div>
+          <div>
+            <h2 class="section-title reveal reveal-d1">Start a conversation</h2>
+            <p class="section-subtitle reveal reveal-d2">
+              For research collaboration, speaking invitations, or mentoring, connect through one of the professional profiles below.
+            </p>
+          </div>
+        </div>
+        <div class="contact-paths">
+          <!-- Replace with your actual links -->
+          <a class="contact-path reveal" href="#" target="_blank" rel="noreferrer">
+            <span>Professional network</span>
+            <strong>LinkedIn</strong>
+            <em>Connect and message ↗</em>
+          </a>
+          <a class="contact-path reveal reveal-d1" href="#" target="_blank" rel="noreferrer">
+            <span>Research record</span>
+            <strong>Google Scholar</strong>
+            <em>View publications ↗</em>
+          </a>
+          <a class="contact-path reveal reveal-d2" href="#" target="_blank" rel="noreferrer">
+            <span>Code and projects</span>
+            <strong>GitHub</strong>
+            <em>Explore repositories ↗</em>
+          </a>
         </div>
       </div>
     </section>
@@ -214,11 +379,10 @@
     <div class="shell footer-shell">
       <p>© <span id="year"></span> Ruben Mamani‑Velasco · University of Toledo</p>
       <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="research.html">Research</a>
-        <a href="teaching.html">Teaching</a>
-        <a href="presentations.html">Presentations</a>
-        <a href="service.html">Service</a>
+        <a href="#">Scholar</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="privacy.html">Privacy</a>
       </div>
     </div>
   </footer>
