@@ -1,6 +1,6 @@
 /* ============================================================
    Algebra / Representation Theory Theme — "Warm Terracotta & Lattice"
-   Complete rewrite – no scattered additions.
+   Complete rewrite – hero moved up + fonts scaled to 90%.
    ============================================================ */
 
 /* ---------- HEADER (dark slate, no blue, no yellow) ---------- */
@@ -11,7 +11,6 @@
   box-shadow: 0 2px 24px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Remove the glowing yellow/gold line at the top of the header */
 .site-header::before {
   display: none !important;
 }
@@ -38,7 +37,6 @@
   color: #ffffff !important;
 }
 
-/* Remove gold underline – use platinum/white instead */
 .primary-nav a:not(.nav-cv)::after {
   background: #a0aec0 !important;
 }
@@ -48,7 +46,6 @@
   background: #ffffff !important;
 }
 
-/* Mobile menu button (hamburger) – platinum, not gold */
 .menu-button span:not(.sr-only) {
   background: #a0aec0 !important;
 }
@@ -73,7 +70,6 @@
   z-index: 1 !important;
   pointer-events: none !important;
 
-  /* Triangular / Hexagonal lattice – like a root system (A₂) or Weyl chamber walls */
   background-image:
     linear-gradient(45deg, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
     linear-gradient(-45deg, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
@@ -94,17 +90,56 @@
   animation: none !important;
 }
 
-/* Ensure content sits above the lattice */
 .home-page .hero-grid,
 .page-banner .shell {
   position: relative;
   z-index: 3;
 }
 
-/* ---------- HERO HEIGHT (fine-tuned) ---------- */
+/* ---------- HERO HEIGHT: MOVED UP (tighter padding) ---------- */
 .home-page .hero {
-  min-height: 520px !important;
-  padding: 72px 0 56px !important;
+  min-height: auto !important;
+  padding: 10px 0 30px !important;
+}
+
+/* ---------- HERO FONTS at 90% of original ---------- */
+.home-page .hero .eyebrow {
+  font-size: 0.648rem !important;
+}
+.home-page .hero h1 {
+  font-size: clamp(3.33rem, 6.3vw, 6.12rem) !important;
+}
+.home-page .hero-role {
+  font-size: clamp(1.215rem, 1.89vw, 1.71rem) !important;
+}
+.home-page .hero-intro {
+  font-size: 1.044rem !important;
+}
+.home-page .hero .text-action {
+  font-size: 0.792rem !important;
+}
+.home-page .hero-social a {
+  font-size: 0.684rem !important;
+}
+.home-page .hero-email {
+  font-size: 0.828rem !important;
+}
+
+/* ---------- HERO FONTS at 90% — responsive ---------- */
+@media (max-width: 970px) {
+  .home-page .hero h1 { font-size: clamp(2.52rem, 4.5vw, 3.6rem) !important; }
+  .home-page .hero-role { font-size: 1.08rem !important; }
+  .home-page .hero-intro { font-size: 0.9rem !important; }
+}
+@media (max-width: 680px) {
+  .home-page .hero h1 { font-size: clamp(2.16rem, 5.4vw, 2.88rem) !important; }
+  .home-page .hero-role { font-size: 0.99rem !important; }
+  .home-page .hero-intro { font-size: 0.855rem !important; }
+}
+@media (max-width: 640px) {
+  .home-page .hero h1 { font-size: clamp(1.98rem, 7.2vw, 2.7rem) !important; }
+  .home-page .hero-role { font-size: 0.99rem !important; }
+  .home-page .hero-intro { font-size: 0.9rem !important; }
 }
 
 /* ---------- REMOVE the floating yellow sunbursts ---------- */
@@ -117,7 +152,7 @@
   background: linear-gradient(160deg, #2c1a12 0%, #5a3d30 45%, #8a705a 75%, #c2b2a0 100%) !important;
 }
 
-/* ---------- ACCENT TEXT (Platinum/Silver shimmer, not gold) ---------- */
+/* ---------- ACCENT TEXT (warm bronze, dark end) ---------- */
 .gold-text {
   background: linear-gradient(135deg, #9a7a64 0%, #7a5a44 40%, #4a3228 70%, #2c1a12 100%);
   -webkit-background-clip: text;
@@ -144,7 +179,6 @@
   border-left: 3px solid #718096;
 }
 
-/* ★★★ UPDATED BADGE – now says "NONCOMMUTATIVE ALGEBRA" ★★★ */
 .affiliation-card:first-child::before {
   content: 'NONCOMMUTATIVE ALGEBRA';
   position: absolute;
@@ -214,7 +248,7 @@
   border-top: 4px solid #718096;
 }
 
-/* ---------- RESPONSIVE ---------- */
+/* ---------- RESPONSIVE (layout only) ---------- */
 @media (max-width: 970px) {
   .affiliation-grid,
   .contact-paths {
@@ -254,12 +288,10 @@
   border-top: 1px solid rgba(160, 140, 120, 0.15) !important;
 }
 
-/* Remove the gold shimmer strip at the top of the footer */
 .site-footer::before {
   display: none !important;
 }
 
-/* Footer text – warm, muted, readable */
 .site-footer p,
 .footer-shell p {
   color: #b5a392 !important;
@@ -288,24 +320,23 @@
   height: 100% !important;
   object-fit: cover !important;
 }
-/* ---------- KEYWORD MARQUEE (match warm brown palette, remove blue) ---------- */
+
+/* ---------- KEYWORD MARQUEE (warm brown) ---------- */
 .keyword-marquee {
-  background: #2c1a12 !important;          /* deep warm brown, matches footer */
+  background: #2c1a12 !important;
   border-top: 1px solid rgba(160, 140, 120, 0.25) !important;
   border-bottom: 1px solid rgba(160, 140, 120, 0.25) !important;
 }
 
 .marquee-track span {
-  color: #d4c5b5 !important;               /* warm beige/stone, not gold */
+  color: #d4c5b5 !important;
 }
 
 .marquee-track span::after {
-  color: rgba(160, 140, 120, 0.4) !important; /* matching separator */
+  color: rgba(160, 140, 120, 0.4) !important;
 }
 
-/* ---------- FIX: Remove blue tap highlight on mobile ---------- */
-
-/* Remove default blue highlight */
+/* ---------- REMOVE blue tap highlight on mobile ---------- */
 .primary-nav a,
 .menu-button,
 .primary-nav a:active,
@@ -314,14 +345,12 @@
   tap-highlight-color: transparent !important;
 }
 
-/* Custom subtle feedback for taps (platinum, not blue) */
 .primary-nav a:active,
 .menu-button:active {
   background: rgba(160, 174, 192, 0.15) !important;
   color: #ffffff !important;
 }
 
-/* Override any blue focus outline (if it appears) */
 .primary-nav a:focus-visible,
 .menu-button:focus-visible {
   outline: 2px solid #a0aec0 !important;
