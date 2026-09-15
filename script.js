@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
      ============================================================ */
   const canvas = document.getElementById('phase-canvas');
   if (canvas && canvas.getContext) {
+     return; // ← disables the hero canvas (rotating dots)
     const ctx = canvas.getContext('2d');
     let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
 
