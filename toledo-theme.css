@@ -302,3 +302,28 @@
 .marquee-track span::after {
   color: rgba(160, 140, 120, 0.4) !important; /* matching separator */
 }
+
+/* ---------- FIX: Remove blue tap highlight on mobile ---------- */
+
+/* Remove default blue highlight */
+.primary-nav a,
+.menu-button,
+.primary-nav a:active,
+.menu-button:active {
+  -webkit-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent !important;
+}
+
+/* Custom subtle feedback for taps (platinum, not blue) */
+.primary-nav a:active,
+.menu-button:active {
+  background: rgba(160, 174, 192, 0.15) !important;
+  color: #ffffff !important;
+}
+
+/* Override any blue focus outline (if it appears) */
+.primary-nav a:focus-visible,
+.menu-button:focus-visible {
+  outline: 2px solid #a0aec0 !important;
+  outline-offset: 2px !important;
+}
